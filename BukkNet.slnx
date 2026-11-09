@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/BackEnd/">
+    <Project Path="BackEnd/BukkNet.csproj" />
+  </Folder>
+</Solution>
