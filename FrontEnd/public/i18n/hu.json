@@ -1,0 +1,8 @@
+{
+    "menu":{
+        "weather":"Időjárás",
+        "trails":"Útvonalak",
+        "wildlife":"Élővilág",
+        "contact": "Kapcsolat"
+    }
+}

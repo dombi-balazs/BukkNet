@@ -1,0 +1,8 @@
+{
+    "menu":{
+        "weather":"Weather",
+        "trails":"Trails",
+        "wildlife":"Wildlife",
+        "contact": "Contact"
+    }
+}
