@@ -13,7 +13,10 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideHttpClient(),
     provideTranslateService({
-      loader: provideTranslateHttpLoader(),
+      loader: provideTranslateHttpLoader({
+    prefix: './i18n/',
+    suffix: '.json'
+  }),
       fallbackLang: 'en',
       lang: 'en'
     }),
