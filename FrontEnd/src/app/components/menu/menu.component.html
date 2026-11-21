@@ -1,9 +1,11 @@
 <nav aria-label="Main navigation" class="w-full bg-[#2e3440] border-b border-[#434c5e] shadow-lg">
   <div class="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
-    <a routerLink="home" (click)="closeMenu()"
-      class="font-semibold text-[#eceff4] tracking-wide whitespace-nowrap cursor-pointer">
-      BükkNet
-    </a>
+    <a
+  routerLink="home"
+  (click)="closeMenu()"
+  class="text-base sm:text-lg font-semibold text-[#eceff4] md:hover:text-[#8fbcbb] active:text-[#8fbcbb] transition-colors duration-200 tracking-wide whitespace-nowrap cursor-pointer">
+  BükkNet 🌳
+</a>
 
     <button type="button" (click)="toggleMenu()" [attr.aria-expanded]="isOpen()"
       [attr.aria-label]="isOpen() ? 'Close navigation' : 'Open navigation'" class="md:hidden inline-flex flex-col items-center justify-center gap-1.5 w-10 h-10 rounded-lg
