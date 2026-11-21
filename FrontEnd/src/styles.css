@@ -1,3 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+@layer base {
+  html,
+  body {
+    background-color: #2e3440;
+    color: #eceff4;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+  }
+}
