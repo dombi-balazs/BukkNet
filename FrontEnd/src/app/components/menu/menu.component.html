@@ -1,61 +1,102 @@
-<nav
-  class="flex items-center gap-2 px-6 py-4
-         bg-[#2e3440]
-         border-b border-[#434c5e]
-         shadow-lg">
-         <a
-    class="px-4 py-2 rounded-lg
-           text-[#d8dee9]
-           hover:text-[#eceff4]
-           hover:bg-[#3b4252]
-           active:bg-[#434c5e]
-           transition-all duration-200
-           cursor-pointer">
-    {{ 'menu.home' | translate }}
-  </a>
+<nav aria-label="Main navigation" class="w-full bg-[#2e3440] border-b border-[#434c5e] shadow-lg">
+  <div class="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
+    <a routerLink="home" (click)="closeMenu()"
+      class="font-semibold text-[#eceff4] tracking-wide whitespace-nowrap cursor-pointer">
+      BükkNet
+    </a>
 
-  <a
-    class="px-4 py-2 rounded-lg
-           text-[#d8dee9]
-           hover:text-[#eceff4]
-           hover:bg-[#3b4252]
-           active:bg-[#434c5e]
-           transition-all duration-200
-           cursor-pointer">
-    {{ 'menu.weather' | translate }}
-  </a>
+    <button type="button" (click)="toggleMenu()" [attr.aria-expanded]="isOpen()"
+      [attr.aria-label]="isOpen() ? 'Close navigation' : 'Open navigation'" class="md:hidden inline-flex flex-col items-center justify-center gap-1.5 w-10 h-10 rounded-lg
+             text-[#d8dee9] hover:text-[#eceff4] hover:bg-[#3b4252]
+             active:bg-[#434c5e] transition-colors duration-200 cursor-pointer">
+      <span class="block h-0.5 w-5 rounded-full bg-current transition-all duration-300 ease-in-out origin-center"
+        [class.translate-y-2]="isOpen()" [class.rotate-45]="isOpen()">
+      </span>
+      <span class="block h-0.5 w-5 rounded-full bg-current transition-all duration-200 ease-in-out"
+        [class.opacity-0]="isOpen()" [class.scale-x-0]="isOpen()">
+      </span>
+      <span class="block h-0.5 w-5 rounded-full bg-current transition-all duration-300 ease-in-out origin-center"
+        [class.-translate-y-2]="isOpen()" [class.-rotate-45]="isOpen()">
+      </span>
+    </button>
 
-  <a
-    class="px-4 py-2 rounded-lg
-           text-[#d8dee9]
-           hover:text-[#eceff4]
-           hover:bg-[#3b4252]
-           active:bg-[#434c5e]
-           transition-all duration-200
-           cursor-pointer">
-    {{ 'menu.trails' | translate }}
-  </a>
+    <div class="hidden md:flex items-center gap-2">
+      <a routerLink="home" routerLinkActive="bg-[#3b4252] text-[#eceff4]" class="whitespace-nowrap px-4 py-2 rounded-lg text-[#d8dee9]
+                 hover:text-[#eceff4] hover:bg-[#3b4252] active:bg-[#434c5e]
+                 transition-all duration-200 cursor-pointer">
+        {{ 'menu.home' | translate }}
+      </a>
 
-  <a
-    class="px-4 py-2 rounded-lg
-           text-[#d8dee9]
-           hover:text-[#eceff4]
-           hover:bg-[#3b4252]
-           active:bg-[#434c5e]
-           transition-all duration-200
-           cursor-pointer">
-    {{ 'menu.wildlife' | translate }}
-  </a>
+      <a routerLink="weather" routerLinkActive="bg-[#3b4252] text-[#eceff4]" class="whitespace-nowrap px-4 py-2 rounded-lg text-[#d8dee9]
+                 hover:text-[#eceff4] hover:bg-[#3b4252] active:bg-[#434c5e]
+                 transition-all duration-200 cursor-pointer">
+        {{ 'menu.weather' | translate }}
+      </a>
 
-  <a
-    class="px-4 py-2 rounded-lg
-           text-[#d8dee9]
-           hover:text-[#eceff4]
-           hover:bg-[#3b4252]
-           active:bg-[#434c5e]
-           transition-all duration-200
-           cursor-pointer">
-    {{ 'menu.contact' | translate }}
-  </a>
+      <a routerLink="trails" routerLinkActive="bg-[#3b4252] text-[#eceff4]" class="whitespace-nowrap px-4 py-2 rounded-lg text-[#d8dee9]
+                 hover:text-[#eceff4] hover:bg-[#3b4252] active:bg-[#434c5e]
+                 transition-all duration-200 cursor-pointer">
+        {{ 'menu.trails' | translate }}
+      </a>
 
+      <a routerLink="nature" routerLinkActive="bg-[#3b4252] text-[#eceff4]" class="whitespace-nowrap px-4 py-2 rounded-lg text-[#d8dee9]
+                 hover:text-[#eceff4] hover:bg-[#3b4252] active:bg-[#434c5e]
+                 transition-all duration-200 cursor-pointer">
+        {{ 'menu.nature' | translate }}
+      </a>
+
+      <a routerLink="contact" routerLinkActive="bg-[#3b4252] text-[#eceff4]" class="whitespace-nowrap px-4 py-2 rounded-lg text-[#d8dee9]
+                 hover:text-[#eceff4] hover:bg-[#3b4252] active:bg-[#434c5e]
+                 transition-all duration-200 cursor-pointer">
+        {{ 'menu.contact' | translate }}
+      </a>
+    </div>
+  </div>
+
+  <div
+    class="md:hidden grid transition-[grid-template-rows,opacity] duration-300 ease-out"
+    [class.grid-rows-[1fr]]="isOpen()"
+    [class.opacity-100]="isOpen()"
+    [class.grid-rows-[0fr]]="!isOpen()"
+    [class.opacity-0]="!isOpen()"
+    [class.pointer-events-none]="!isOpen()">
+    <div class="overflow-hidden">
+      <div class="flex flex-col gap-1 px-4 pb-4 pt-1 border-t border-[#434c5e] bg-[#2e3440]">
+        <a routerLink="home" routerLinkActive="bg-[#3b4252] text-[#eceff4]" (click)="closeMenu()"
+          class="px-4 py-2.5 rounded-lg text-[#d8dee9]
+                 hover:text-[#eceff4] hover:bg-[#3b4252] active:bg-[#434c5e]
+                 transition-colors duration-200 cursor-pointer">
+          {{ 'menu.home' | translate }}
+        </a>
+
+        <a routerLink="weather" routerLinkActive="bg-[#3b4252] text-[#eceff4]" (click)="closeMenu()"
+          class="px-4 py-2.5 rounded-lg text-[#d8dee9]
+                 hover:text-[#eceff4] hover:bg-[#3b4252] active:bg-[#434c5e]
+                 transition-colors duration-200 cursor-pointer">
+          {{ 'menu.weather' | translate }}
+        </a>
+
+        <a routerLink="trails" routerLinkActive="bg-[#3b4252] text-[#eceff4]" (click)="closeMenu()"
+          class="px-4 py-2.5 rounded-lg text-[#d8dee9]
+                 hover:text-[#eceff4] hover:bg-[#3b4252] active:bg-[#434c5e]
+                 transition-colors duration-200 cursor-pointer">
+          {{ 'menu.trails' | translate }}
+        </a>
+
+        <a routerLink="nature" routerLinkActive="bg-[#3b4252] text-[#eceff4]" (click)="closeMenu()"
+          class="px-4 py-2.5 rounded-lg text-[#d8dee9]
+                 hover:text-[#eceff4] hover:bg-[#3b4252] active:bg-[#434c5e]
+                 transition-colors duration-200 cursor-pointer">
+          {{ 'menu.nature' | translate }}
+        </a>
+
+        <a routerLink="contact" routerLinkActive="bg-[#3b4252] text-[#eceff4]" (click)="closeMenu()"
+          class="px-4 py-2.5 rounded-lg text-[#d8dee9]
+                 hover:text-[#eceff4] hover:bg-[#3b4252] active:bg-[#434c5e]
+                 transition-colors duration-200 cursor-pointer">
+          {{ 'menu.contact' | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
 </nav>
