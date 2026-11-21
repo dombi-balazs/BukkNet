@@ -1,8 +1,9 @@
 {
     "menu":{
+        "home": "Home",
         "weather":"Weather",
         "trails":"Trails",
-        "wildlife":"Wildlife",
+        "nature":"Nature",
         "contact": "Contact"
     }
 }
