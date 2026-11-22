@@ -1,1 +1,59 @@
-<p>Home</p>
+<section class="relative h-[calc(100dvh-65px)] md:h-[calc(100dvh-73px)] overflow-hidden bg-[#2e3440]">
+
+  <img
+    src="/images/hero-image.jpg"
+    alt="Landscape on the bank of the Lake of Varbó"
+    loading="eager"
+    fetchPriority="high"
+    class="absolute inset-0 h-full w-full object-cover pointer-events-none" />
+
+  <div class="absolute inset-0 bg-[#2e3440]/50 pointer-events-none"></div>
+
+  <div class="relative z-10 flex h-full items-center justify-center px-6">
+    <div
+      class="w-full max-w-2xl
+             rounded-2xl
+             border border-[#434c5e]
+             bg-[#2e3440]
+             shadow-sm
+             px-8 py-12
+             md:px-14 md:py-14
+             text-center">
+
+      <h1 class="mb-3 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#eceff4]">
+        {{ 'home.title' | translate }}
+      </h1>
+
+      <p class="mb-5 text-lg sm:text-xl md:text-2xl font-medium text-[#88c0d0]">
+        {{ 'home.subtitle' | translate }}
+      </p>
+
+      <p class="mx-auto mb-8 max-w-xl text-base md:text-lg leading-relaxed text-[#d8dee9]">
+        {{ 'home.description' | translate }}
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          routerLink="/trails"
+          class="px-6 py-3 rounded-lg font-medium
+                 bg-[#88c0d0] text-[#2e3440]
+                 hover:bg-[#8fbcbb] active:bg-[#81a1c1]
+                 transition-colors duration-200 cursor-pointer">
+          {{ 'menu.trails' | translate }}
+        </a>
+
+        <a
+          routerLink="/weather"
+          class="px-6 py-3 rounded-lg font-medium
+                 bg-[#3b4252] text-[#eceff4]
+                 border border-[#4c566a]
+                 hover:bg-[#434c5e] active:bg-[#4c566a]
+                 transition-colors duration-200 cursor-pointer">
+          {{ 'menu.weather' | translate }}
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</section>

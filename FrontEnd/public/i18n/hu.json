@@ -6,4 +6,10 @@
         "nature":"Természet",
         "contact": "Kapcsolat"
     }
+    ,
+    "home":{
+        "title":"BükkNet",
+        "subtitle":"Fedezd fel a Bükk hegységet.",
+        "description":"Időjárás, túraútvonalak és természeti információk a Bükkből, letisztultan egy helyen."
+    }
 }

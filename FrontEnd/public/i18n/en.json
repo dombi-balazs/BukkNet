@@ -5,5 +5,11 @@
         "trails":"Trails",
         "nature":"Nature",
         "contact": "Contact"
+    },
+    "home":{
+        "title":"BükkNet",
+        "subtitle":"Explore the Bükk Mountains.",
+        "description":"Weather, hiking trails, and nature from the Bükk in one calm place."
     }
+
 }
