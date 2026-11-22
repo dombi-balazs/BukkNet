@@ -1,1 +1,29 @@
-<p>Weather</p>
+<div class="mx-auto max-w-5xl px-4">
+
+  <footer class="mt-8 pt-2 text-left text-xs text-[#d8dee9]">
+    <p class="flex flex-wrap items-center gap-x-3 gap-y-1">
+      <span>
+        {{ 'weather.credit' | translate }}
+        <a
+          href="https://www.met.no/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[#88c0d0] underline-offset-4 hover:text-[#8fbcbb] hover:underline"
+        >
+          MET Norway
+        </a>
+      </span>
+      <span>
+        {{ 'weather.license_prefix' | translate }}
+        <a
+          href="https://creativecommons.org/licenses/by/4.0/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-[#88c0d0] underline-offset-4 hover:text-[#8fbcbb] hover:underline"
+        >
+          {{ 'weather.license.name' | translate }}
+        </a>
+      </span>
+    </p>
+  </footer>
+</div>

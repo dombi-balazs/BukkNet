@@ -1,15 +1,21 @@
 {
-    "menu":{
+    "menu": {
         "home": "Főoldal",
-        "weather":"Időjárás",
-        "trails":"Útvonalak",
-        "nature":"Természet",
+        "weather": "Időjárás",
+        "trails": "Útvonalak",
+        "nature": "Természet",
         "contact": "Kapcsolat"
-    }
-    ,
-    "home":{
-        "title":"BükkNet",
-        "subtitle":"Fedezd fel a Bükk hegységet.",
-        "description":"Időjárás, túraútvonalak és természeti információk a Bükkből, letisztultan egy helyen."
+    },
+    "home": {
+        "title": "BükkNet",
+        "subtitle": "Fedezd fel a Bükk hegységet.",
+        "description": "Időjárás, túraútvonalak és természeti információk a Bükkből, letisztultan egy helyen."
+    },
+    "weather": {
+        "credit": "Forrás:",
+        "license_prefix": "Licenc:",
+        "license": {
+            "name": "CC BY 4.0"
+        }
     }
 }

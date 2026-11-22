@@ -1,15 +1,21 @@
 {
-    "menu":{
+    "menu": {
         "home": "Home",
-        "weather":"Weather",
-        "trails":"Trails",
-        "nature":"Nature",
+        "weather": "Weather",
+        "trails": "Trails",
+        "nature": "Nature",
         "contact": "Contact"
     },
-    "home":{
-        "title":"BükkNet",
-        "subtitle":"Explore the Bükk Mountains.",
-        "description":"Weather, hiking trails, and nature from the Bükk in one calm place."
+    "home": {
+        "title": "BükkNet",
+        "subtitle": "Explore the Bükk Mountains.",
+        "description": "Weather, hiking trails, and nature from the Bükk in one calm place."
+    },
+    "weather": {
+        "credit": "Source:",
+        "license_prefix": "License:",
+        "license": {
+            "name": "CC BY 4.0"
+        }
     }
-
 }
