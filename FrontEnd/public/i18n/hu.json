@@ -12,10 +12,32 @@
         "description": "Időjárás, túraútvonalak és természeti információk a Bükkből, letisztultan egy helyen."
     },
     "weather": {
-        "credit": "Forrás:",
-        "license_prefix": "Licenc:",
-        "license": {
-            "name": "CC BY 4.0"
-        }
+    "refresh": "Frissítés",
+    "loading": "Betöltés...",
+    "error": "Nem sikerült betölteni a bükki időjárási adatokat.",
+    "wind": "Szél",
+    "precipitation": "Csapadék",
+    "credit": "Adatok forrása:",
+    "license_prefix": "Licenc:",
+    "license": {
+      "name": "CC BY 4.0"
+    },
+    "symbols": {
+      "clearsky_day": "Derült",
+      "clearsky_night": "Derült",
+      "fair_day": "Gyengén felhős",
+      "fair_night": "Gyengén felhős",
+      "partlycloudy_day": "Részben felhős",
+      "partlycloudy_night": "Részben felhős",
+      "cloudy": "Felhős",
+      "fog": "Ködös",
+      "lightrain": "Gyenge eső",
+      "rain": "Eső",
+      "heavyrain": "Erős eső",
+      "lightsnow": "Gyenge havazás",
+      "snow": "Havazás",
+      "heavysnow": "Erős havazás",
+      "sleet": "Havas eső"
     }
+  }
 }

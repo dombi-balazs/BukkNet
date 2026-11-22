@@ -12,10 +12,32 @@
         "description": "Weather, hiking trails, and nature from the Bükk in one calm place."
     },
     "weather": {
-        "credit": "Source:",
-        "license_prefix": "License:",
-        "license": {
-            "name": "CC BY 4.0"
-        }
+    "refresh": "Refresh",
+    "loading": "Loading...",
+    "error": "Failed to load Bükk weather data.",
+    "wind": "Wind",
+    "precipitation": "Precipitation",
+    "credit": "Data provided by:",
+    "license_prefix": "License:",
+    "license": {
+      "name": "CC BY 4.0"
+    },
+    "symbols": {
+      "clearsky_day": "Clear sky",
+      "clearsky_night": "Clear sky",
+      "fair_day": "Fair",
+      "fair_night": "Fair",
+      "partlycloudy_day": "Partly cloudy",
+      "partlycloudy_night": "Partly cloudy",
+      "cloudy": "Cloudy",
+      "fog": "Fog",
+      "lightrain": "Light rain",
+      "rain": "Rain",
+      "heavyrain": "Heavy rain",
+      "lightsnow": "Light snow",
+      "snow": "Snow",
+      "heavysnow": "Heavy snow",
+      "sleet": "Sleet"
     }
+  }
 }
