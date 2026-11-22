@@ -8,6 +8,15 @@ public sealed record WeatherLocation(
     int AltitudeMeters
 );
 
+public sealed record ForecastPoint(
+    DateTimeOffset Time,
+    double TemperatureC,
+    double WindSpeedMs,
+    double WindFromDirectionDeg,
+    double PrecipitationMm,
+    string SymbolCode
+);
+
 public sealed record WeatherInformation(
     string LocationId,
     string LocationName,
@@ -16,5 +25,6 @@ public sealed record WeatherInformation(
     double WindFromDirectionDeg,
     double PrecipitationMm,
     string SymbolCode,
-    DateTimeOffset UpdatedAt
+    DateTimeOffset UpdatedAt,
+    IReadOnlyList<ForecastPoint> Forecast
 );

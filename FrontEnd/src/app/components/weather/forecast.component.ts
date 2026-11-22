@@ -3,6 +3,15 @@ import { httpResource } from '@angular/common/http';
 import { DecimalPipe, DatePipe } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
+export interface ForecastPoint {
+  time: string;
+  temperatureC: number;
+  windSpeedMs: number;
+  windFromDirectionDeg: number;
+  precipitationMm: number;
+  symbolCode: string;
+}
+
 export interface WeatherInformation {
   locationId: string;
   locationName: string;
@@ -12,6 +21,7 @@ export interface WeatherInformation {
   precipitationMm: number;
   symbolCode: string;
   updatedAt: string;
+  forecast: ForecastPoint[];
 }
 
 @Component({
@@ -41,5 +51,74 @@ export class ForecastComponent {
     const key = `weather.symbols.${symbolCode}`;
     const translated = this.translate.instant(key);
     return translated !== key ? translated : symbolCode.replaceAll('_', ' ');
+  }
+
+  scrollToLocation(locationId: string): void {
+    if (!locationId) {
+      return;
+    }
+
+    this.selectedLocationId.set(null);
+
+    requestAnimationFrame(() => {
+      const element = document.getElementById(`weather-card-${locationId}`);
+      element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const topAnchor = document.getElementById('mobile-location-jump');
+    if (topAnchor) {
+      topAnchor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    let parent = topAnchor?.parentElement ?? null;
+    while (parent) {
+      const style = getComputedStyle(parent);
+      const canScrollY =
+        (style.overflowY === 'auto' || style.overflowY === 'scroll') &&
+        parent.scrollHeight > parent.clientHeight;
+
+      if (canScrollY) {
+        parent.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      parent = parent.parentElement;
+    }
+  }
+
+  symbolToEmoji(symbolCode: string): string {
+    const code = symbolCode.toLowerCase();
+
+    if (code.startsWith('clearsky_night') || code.startsWith('fair_night')) {
+      return '🌙';
+    }
+    if (code.startsWith('clearsky')) {
+      return '☀️';
+    }
+    if (code.startsWith('fair_day') || code.startsWith('partlycloudy')) {
+      return '⛅';
+    }
+    if (code.startsWith('cloudy')) {
+      return '☁️';
+    }
+    if (code.includes('fog')) {
+      return '🌫️';
+    }
+    if (code.includes('thunder')) {
+      return '⛈️';
+    }
+    if ((code.includes('snow') && code.includes('rain')) || code.includes('sleet')) {
+      return '🌨️';
+    }
+    if (code.includes('snow')) {
+      return '❄️';
+    }
+    if (code.includes('rain') || code.includes('shower')) {
+      return '🌧️';
+    }
+
+    return '🌥️';
   }
 }

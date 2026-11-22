@@ -1,34 +1,52 @@
 @if (weatherResource.isLoading()) {
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-    @for (_ of [1, 2, 3, 4, 5]; track $index) {
-      <div class="h-48 rounded-2xl border border-[#434c5e] bg-[#3b4252]/60 p-5">
-        <div class="h-5 w-28 rounded bg-[#434c5e] mb-3"></div>
-        <div class="h-8 w-20 rounded bg-[#434c5e]/80 mb-4"></div>
-        <div class="h-4 w-full rounded bg-[#434c5e]/50 mb-2"></div>
-        <div class="h-4 w-2/3 rounded bg-[#434c5e]/50"></div>
-      </div>
-    }
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+  @for (_ of [1, 2, 3, 4, 5]; track $index) {
+  <div class="h-48 rounded-2xl border border-[#434c5e] bg-[#3b4252]/60 p-5">
+    <div class="h-5 w-28 rounded bg-[#434c5e] mb-3"></div>
+    <div class="h-8 w-20 rounded bg-[#434c5e]/80 mb-4"></div>
+    <div class="h-4 w-full rounded bg-[#434c5e]/50 mb-2"></div>
+    <div class="h-4 w-2/3 rounded bg-[#434c5e]/50"></div>
   </div>
+  }
+</div>
 } @else if (weatherResource.error()) {
-  <div class="rounded-2xl border border-[#bf616a]/60 bg-[#3b4252] p-6 text-[#eceff4]">
-    <p class="font-medium text-[#bf616a]">
-      {{ 'weather.error' | translate }}
-    </p>
-  </div>
+<div class="rounded-2xl border border-[#bf616a]/60 bg-[#3b4252] p-6 text-[#eceff4]">
+  <p class="font-medium text-[#bf616a]">
+    {{ 'weather.error' | translate }}
+  </p>
+</div>
 } @else if (weatherResource.hasValue()) {
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-    @for (item of filteredItems(); track item.locationId) {
-      <article
-        class="flex flex-col justify-between rounded-2xl border border-[#434c5e] bg-[#3b4252] p-5
+<div class="mb-4 md:hidden rounded-xl border border-[#434c5e] bg-[#3b4252] p-3">
+  <label for="mobile-location-jump" class="block text-xs font-medium text-[#d8dee9]/80 mb-1.5">
+    {{ 'weather.jumpToLocation' | translate }}
+  </label>
+  <select id="mobile-location-jump" (change)="scrollToLocation($any($event.target).value)" class="w-full rounded-lg border border-[#434c5e] bg-[#2e3440] px-3 py-2 text-sm text-[#eceff4]
+             focus:border-[#88c0d0] focus:outline-none">
+    <option value="">{{ 'weather.selectLocation' | translate }}</option>
+    @for (item of weatherResource.value(); track item.locationId) {
+    <option [value]="item.locationId">
+      {{ symbolToEmoji(item.symbolCode) }} {{ item.locationName }} ({{ item.temperatureC | number:'1.1-1' }}°C)
+    </option>
+    }
+  </select>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+  @for (item of filteredItems(); track item.locationId) {
+  <article [id]="'weather-card-' + item.locationId" class="scroll-mt-4 flex flex-col justify-between rounded-2xl border border-[#434c5e] bg-[#3b4252] p-5
                hover:border-[#88c0d0]/60 transition-colors duration-200">
-        <div>
+    <div>
           <div class="flex items-center justify-between gap-3">
             <h2 class="min-w-0 flex-1 text-lg font-semibold text-[#eceff4] leading-snug"
                 [title]="item.locationName">
               {{ item.locationName }}
             </h2>
-            <span class="shrink-0 inline-flex items-center justify-center rounded-lg bg-[#2e3440] border border-[#434c5e] px-2.5 py-1 text-xs font-medium text-[#8fbcbb] whitespace-nowrap">
-              {{ formatSymbol(item.symbolCode) }}
+            <span
+              class="shrink-0 inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#2e3440] border border-[#434c5e] px-2.5 py-1 text-xs font-medium text-[#8fbcbb] whitespace-nowrap md:cursor-help select-none"
+              [title]="formatSymbol(item.symbolCode)"
+              [attr.aria-label]="formatSymbol(item.symbolCode)">
+              <span class="text-base leading-none">{{ symbolToEmoji(item.symbolCode) }}</span>
+              <span class="md:hidden">{{ formatSymbol(item.symbolCode) }}</span>
             </span>
           </div>
 
@@ -40,26 +58,68 @@
           </div>
         </div>
 
-        <div class="mt-5 pt-4 border-t border-[#434c5e]/80 space-y-2 text-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-[#d8dee9]/80">{{ 'weather.wind' | translate }}</span>
-            <span class="font-medium text-[#eceff4]">
-              {{ item.windSpeedMs | number:'1.1-1' }} m/s · {{ item.windFromDirectionDeg | number:'1.0-0' }}°
-            </span>
-          </div>
-
-          <div class="flex items-center justify-between">
-            <span class="text-[#d8dee9]/80">{{ 'weather.precipitation' | translate }}</span>
-            <span class="font-medium text-[#eceff4]">
-              {{ item.precipitationMm | number:'1.1-1' }} mm
-            </span>
-          </div>
-
-          <div class="pt-1 text-xs text-[#d8dee9]/65">
-            {{ item.updatedAt | date:'yyyy.MM.dd HH:mm' }}
-          </div>
+    <div>
+      <div class="mt-5 pt-4 border-t border-[#434c5e]/80 space-y-2 text-sm">
+        <div class="flex items-center justify-between">
+          <span class="text-[#d8dee9]/80">{{ 'weather.wind' | translate }}</span>
+          <span class="font-medium text-[#eceff4]">
+            {{ item.windSpeedMs | number:'1.1-1' }} m/s · {{ item.windFromDirectionDeg | number:'1.0-0' }}°
+          </span>
         </div>
-      </article>
-    }
+
+        <div class="flex items-center justify-between">
+          <span class="text-[#d8dee9]/80">{{ 'weather.precipitation' | translate }}</span>
+          <span class="font-medium text-[#eceff4]">
+            {{ item.precipitationMm | number:'1.1-1' }} mm
+          </span>
+        </div>
+
+        <div class="pt-1 text-xs text-[#d8dee9]/65">
+          {{ item.updatedAt | date:'yyyy.MM.dd HH:mm' }}
+        </div>
+      </div>
+
+      @if (item.forecast.length) {
+            <div class="mt-4 pt-3 border-t border-[#434c5e]/80 space-y-1.5 text-xs">
+              @for (point of item.forecast; track point.time) {
+                <div class="grid grid-cols-[2.75rem_auto_1fr_auto] items-center gap-2 text-[#d8dee9]">
+                  <span class="text-[#d8dee9]/70 tabular-nums leading-normal">
+                    {{ point.time | date:'HH:mm' }}
+                  </span>
+
+                  <span
+                    class="inline-flex items-center gap-1 leading-normal shrink-0 md:cursor-help select-none"
+                    [title]="formatSymbol(point.symbolCode)"
+                    [attr.aria-label]="formatSymbol(point.symbolCode)">
+                    <span class="w-5 text-center text-sm leading-normal">{{ symbolToEmoji(point.symbolCode) }}</span>
+                    <span class="md:hidden py-0.5 leading-normal text-[#8fbcbb]">
+                      {{ formatSymbol(point.symbolCode) }}
+                    </span>
+                  </span>
+
+                  <span class="text-right tabular-nums leading-normal text-[#d8dee9]/75 whitespace-nowrap">
+                    {{ point.precipitationMm | number:'1.1-1' }} mm
+                  </span>
+
+                  <span class="min-w-[3.75rem] text-right font-semibold leading-normal text-[#88c0d0] tabular-nums whitespace-nowrap">
+                    {{ point.temperatureC | number:'1.1-1' }}°C
+                  </span>
+                </div>
+              }
+            </div>
+          }
+    </div>
+  </article>
+  }
+</div>
+
+<div class="mt-6 md:hidden flex justify-center">
+    <button
+      type="button"
+      (click)="scrollToTop()"
+      class="w-full rounded-xl border border-[#434c5e] bg-[#3b4252] px-4 py-2.5 text-sm font-medium leading-normal text-[#88c0d0]
+             hover:border-[#88c0d0]/60 active:bg-[#2e3440] transition-colors">
+      ↑ {{ 'weather.backToTop' | translate }}
+    </button>
   </div>
 }

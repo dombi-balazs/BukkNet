@@ -33,20 +33,20 @@ public class WeatherService : IWeatherService
     }
 
     public async Task<IReadOnlyList<WeatherInformation>> GetAllAsync(CancellationToken cancellationToken = default)
-{
-    var results = new List<WeatherInformation>(Locations.Count);
-
-    foreach (var location in Locations)
     {
-        var info = await GetByLocationIdAsync(location.Id, cancellationToken);
-        if (info is not null)
-        {
-            results.Add(info);
-        }
-    }
+        var results = new List<WeatherInformation>(Locations.Count);
 
-    return results;
-}
+        foreach (var location in Locations)
+        {
+            var info = await GetByLocationIdAsync(location.Id, cancellationToken);
+            if (info is not null)
+            {
+                results.Add(info);
+            }
+        }
+
+        return results;
+    }
 
     public async Task<WeatherInformation?> GetByLocationIdAsync(string locationId, CancellationToken cancellationToken = default)
     {
@@ -108,40 +108,8 @@ public class WeatherService : IWeatherService
         var windSpeedMs = details.TryGetProperty("wind_speed", out var wind) ? wind.GetDouble() : 0;
         var windDirDeg = details.TryGetProperty("wind_from_direction", out var dir) ? dir.GetDouble() : 0;
 
-        double? precipitationMm = null;
-string? symbolCode = null;
-
-foreach (var periodName in new[] { "next_1_hours", "next_6_hours", "next_12_hours" })
-{
-    if (!data.TryGetProperty(periodName, out var period))
-    {
-        continue;
-    }
-
-    if (symbolCode is null &&
-        period.TryGetProperty("summary", out var summary) &&
-        summary.TryGetProperty("symbol_code", out var sym) &&
-        !string.IsNullOrWhiteSpace(sym.GetString()))
-    {
-        symbolCode = sym.GetString()!;
-    }
-
-    if (precipitationMm is null &&
-        period.TryGetProperty("details", out var pDetails) &&
-        pDetails.TryGetProperty("precipitation_amount", out var precip) &&
-        precip.TryGetDouble(out var parsedPrecip))
-    {
-        precipitationMm = parsedPrecip;
-    }
-
-    if (symbolCode is not null && precipitationMm is not null)
-    {
-        break;
-    }
-}
-
-var finalSymbolCode = symbolCode ?? "cloudy";
-        var finalPrecipitationMm = precipitationMm ?? 0.0;
+        var (symbolCode, precipitationMm) = ExtractPeriodSummary(data);
+        var forecast = MapForecastPoints(timeseries, updatedAt);
 
         return new WeatherInformation(
             location.Id,
@@ -149,9 +117,104 @@ var finalSymbolCode = symbolCode ?? "cloudy";
             temperatureC,
             windSpeedMs,
             windDirDeg,
-            finalPrecipitationMm,
-            finalSymbolCode,
-            updatedAt
+            precipitationMm ?? 0.0,
+            symbolCode ?? "cloudy",
+            updatedAt,
+            forecast
         );
+    }
+
+    private static IReadOnlyList<ForecastPoint> MapForecastPoints(JsonElement timeseries, DateTimeOffset startTime)
+    {
+        var points = new List<ForecastPoint>();
+        var maxHorizon = startTime.AddHours(24);
+        DateTimeOffset? lastIncludedTime = null;
+
+        foreach (var entry in timeseries.EnumerateArray())
+        {
+            if (!entry.TryGetProperty("time", out var timeProp) ||
+                !entry.TryGetProperty("data", out var data) ||
+                !data.TryGetProperty("instant", out var instant) ||
+                !instant.TryGetProperty("details", out var details))
+            {
+                continue;
+            }
+
+            var entryTime = timeProp.GetDateTimeOffset();
+            if (entryTime <= startTime)
+            {
+                continue;
+            }
+
+            if (entryTime > maxHorizon)
+            {
+                break;
+            }
+
+            if (lastIncludedTime is not null && (entryTime - lastIncludedTime.Value).TotalHours < 2.5)
+            {
+                continue;
+            }
+
+            var temperatureC = details.TryGetProperty("air_temperature", out var temp) ? temp.GetDouble() : 0;
+            var windSpeedMs = details.TryGetProperty("wind_speed", out var wind) ? wind.GetDouble() : 0;
+            var windDirDeg = details.TryGetProperty("wind_from_direction", out var dir) ? dir.GetDouble() : 0;
+            var (symbolCode, precipitationMm) = ExtractPeriodSummary(data);
+
+            points.Add(new ForecastPoint(
+                entryTime,
+                temperatureC,
+                windSpeedMs,
+                windDirDeg,
+                precipitationMm ?? 0.0,
+                symbolCode ?? "cloudy"
+            ));
+
+            lastIncludedTime = entryTime;
+
+            if (points.Count >= 8)
+            {
+                break;
+            }
+        }
+
+        return points;
+    }
+
+    private static (string? SymbolCode, double? PrecipitationMm) ExtractPeriodSummary(JsonElement data)
+    {
+        string? symbolCode = null;
+        double? precipitationMm = null;
+
+        foreach (var periodName in new[] { "next_1_hours", "next_6_hours", "next_12_hours" })
+        {
+            if (!data.TryGetProperty(periodName, out var period))
+            {
+                continue;
+            }
+
+            if (symbolCode is null &&
+                period.TryGetProperty("summary", out var summary) &&
+                summary.TryGetProperty("symbol_code", out var sym) &&
+                !string.IsNullOrWhiteSpace(sym.GetString()))
+            {
+                symbolCode = sym.GetString()!;
+            }
+
+            if (precipitationMm is null &&
+                period.TryGetProperty("details", out var pDetails) &&
+                pDetails.TryGetProperty("precipitation_amount", out var precip) &&
+                precip.TryGetDouble(out var parsedPrecip))
+            {
+                precipitationMm = parsedPrecip;
+            }
+
+            if (symbolCode is not null && precipitationMm is not null)
+            {
+                break;
+            }
+        }
+
+        return (symbolCode, precipitationMm);
     }
 }
