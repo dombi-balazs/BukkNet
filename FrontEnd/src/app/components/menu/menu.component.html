@@ -9,30 +9,34 @@
       BükkNet 🦔
     </a>
 
-    <button
-      type="button"
-      (click)="toggleMenu()"
-      [attr.aria-expanded]="isOpen()"
-      [attr.aria-label]="isOpen() ? 'Close navigation' : 'Open navigation'"
-      class="md:hidden inline-flex flex-col items-center justify-center gap-1.5 w-10 h-10 rounded-lg
-             text-[#d8dee9] hover:text-[#eceff4] hover:bg-[#3b4252]
-             active:bg-[#434c5e] transition-colors duration-200 cursor-pointer">
-      <span
-        class="block h-0.5 w-5 rounded-full bg-current transition-all duration-300 ease-in-out origin-center"
-        [class.translate-y-2]="isOpen()"
-        [class.rotate-45]="isOpen()">
-      </span>
-      <span
-        class="block h-0.5 w-5 rounded-full bg-current transition-all duration-300 ease-in-out"
-        [class.opacity-0]="isOpen()"
-        [class.scale-x-0]="isOpen()">
-      </span>
-      <span
-        class="block h-0.5 w-5 rounded-full bg-current transition-all duration-300 ease-in-out origin-center"
-        [class.-translate-y-2]="isOpen()"
-        [class.-rotate-45]="isOpen()">
-      </span>
-    </button>
+    <div class="flex items-center gap-2 md:hidden">
+      <app-language />
+
+      <button
+        type="button"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-label]="isOpen() ? 'Close navigation' : 'Open navigation'"
+        class="inline-flex flex-col items-center justify-center gap-1.5 w-10 h-10 rounded-lg
+               text-[#d8dee9] hover:text-[#eceff4] hover:bg-[#3b4252]
+               active:bg-[#434c5e] transition-colors duration-200 cursor-pointer">
+        <span
+          class="block h-0.5 w-5 rounded-full bg-current transition-all duration-300 ease-in-out origin-center"
+          [class.translate-y-2]="isOpen()"
+          [class.rotate-45]="isOpen()">
+        </span>
+        <span
+          class="block h-0.5 w-5 rounded-full bg-current transition-all duration-300 ease-in-out"
+          [class.opacity-0]="isOpen()"
+          [class.scale-x-0]="isOpen()">
+        </span>
+        <span
+          class="block h-0.5 w-5 rounded-full bg-current transition-all duration-300 ease-in-out origin-center"
+          [class.-translate-y-2]="isOpen()"
+          [class.-rotate-45]="isOpen()">
+        </span>
+      </button>
+    </div>
 
     <div class="hidden md:flex items-center gap-2">
       <a
@@ -79,6 +83,8 @@
                transition-colors duration-200 cursor-pointer">
         {{ 'menu.contact' | translate }}
       </a>
+
+      <app-language class="ml-2" />
     </div>
   </div>
 

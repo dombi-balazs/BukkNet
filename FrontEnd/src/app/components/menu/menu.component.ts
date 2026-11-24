@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageComponent } from './language.component';
 
 @Component({
   selector: 'app-menu',
-  imports: [TranslatePipe, RouterLink, RouterLinkActive],
+  imports: [TranslatePipe, RouterLink, RouterLinkActive, LanguageComponent],
   templateUrl: './menu.component.html',
 })
 export class MenuComponent {

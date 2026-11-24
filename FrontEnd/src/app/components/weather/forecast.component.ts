@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { DecimalPipe, DatePipe } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { LocationSelectComponent } from './location-select.component';
 
 export interface ForecastPoint {
   time: string;
@@ -26,7 +27,7 @@ export interface WeatherInformation {
 
 @Component({
   selector: 'app-forecast',
-  imports: [DecimalPipe, DatePipe, TranslatePipe],
+  imports: [DecimalPipe, DatePipe, TranslatePipe, LocationSelectComponent],
   templateUrl: './forecast.component.html',
 })
 export class ForecastComponent {
@@ -51,19 +52,6 @@ export class ForecastComponent {
     const key = `weather.symbols.${symbolCode}`;
     const translated = this.translate.instant(key);
     return translated !== key ? translated : symbolCode.replaceAll('_', ' ');
-  }
-
-  scrollToLocation(locationId: string): void {
-    if (!locationId) {
-      return;
-    }
-
-    this.selectedLocationId.set(null);
-
-    requestAnimationFrame(() => {
-      const element = document.getElementById(`weather-card-${locationId}`);
-      element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
   }
 
   scrollToTop(): void {
@@ -121,4 +109,18 @@ export class ForecastComponent {
 
     return '🌥️';
   }
+
+  onLocationSelect(locationId: string | null): void {
+  this.selectedLocationId.set(locationId);
+
+  if (!locationId) {
+    return;
+  }
+
+  requestAnimationFrame(() => {
+    const element = document.getElementById(`weather-card-${locationId}`);
+    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
 }
